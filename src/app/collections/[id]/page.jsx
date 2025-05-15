@@ -120,8 +120,8 @@ export default function CollectionPage({ params }) {
     );
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      <h1 className="text-5xl font-extrabold mb-4 text-gray-900 border-b pb-4">
+    <div className="max-w-7xl mx-auto p-6 bg-black min-h-screen text-white">
+      <h1 className="text-5xl font-extrabold mb-4 border-b pb-4">
         {collection.title || "Untitled Collection"}
       </h1>
 
@@ -136,14 +136,14 @@ export default function CollectionPage({ params }) {
               onChange={() => setFilterRevision(!filterRevision)}
               className="form-checkbox w-5 h-5 text-indigo-600"
             />
-            <span className="ml-2 text-gray-700 font-medium">Show only Revised</span>
+            <span className="ml-2 font-medium">Show only Revised</span>
           </label>
 
           {/* Filter: Difficulty */}
-          <label className="flex items-center gap-2 text-gray-700 font-medium">
+          <label className="flex items-center gap-2 font-medium text-white">
             Filter by Difficulty:
             <select
-              className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="border border-gray-300 rounded px-2 py-1 text-sm text-black bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
               value={filterDifficulty}
               onChange={(e) => setFilterDifficulty(e.target.value)}
             >
@@ -153,21 +153,22 @@ export default function CollectionPage({ params }) {
               <option>Hard</option>
             </select>
           </label>
+
         </div>
 
         {/* Progress bar and stats */}
         <div className="w-full md:w-1/3">
-          <div className="text-sm font-semibold mb-1 text-gray-800">
+          <div className="text-sm font-semibold mb-1 text-gray-200">
             Progress: {progressPercent}%
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-4">
+          <div className="w-full bg-gray-700 rounded-full h-4">
             <div
               className="bg-indigo-600 h-4 rounded-full transition-all duration-300"
               style={{ width: `${progressPercent}%` }}
             ></div>
           </div>
 
-          <div className="mt-2 text-xs text-gray-600 flex justify-between">
+          <div className="mt-2 text-xs text-gray-400 flex justify-between">
             <div>Total: {totalCount}</div>
             <div>Done: {doneCount}</div>
             <div>Revised: {revisionCount}</div>
@@ -176,9 +177,9 @@ export default function CollectionPage({ params }) {
       </div>
 
       {/* Questions table */}
-      <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
-        <table className="min-w-full divide-y divide-gray-200 table-auto">
-          <thead className="bg-gray-100">
+      <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-600">
+        <table className="min-w-full divide-y divide-gray-600 table-auto">
+          <thead className="bg-gray-900">
             <tr>
               {[
                 "Done",
@@ -187,24 +188,22 @@ export default function CollectionPage({ params }) {
                 "Title",
                 "Acceptance",
                 "Difficulty",
-                "Frequency",
                 "Link",
                 "Note",
               ].map((header) => (
                 <th
                   key={header}
-                  scope="col"
-                  className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider select-none"
+                  className="px-4 py-3 text-left text-xs font-semibold text-white uppercase tracking-wider select-none"
                 >
                   {header}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-100">
+          <tbody className="bg-black divide-y divide-gray-800">
             {filteredQuestions.length === 0 && (
               <tr>
-                <td colSpan={9} className="text-center py-6 text-gray-500 font-medium">
+                <td colSpan={9} className="text-center py-6 text-gray-400 font-medium">
                   No questions match the current filters.
                 </td>
               </tr>
@@ -212,15 +211,14 @@ export default function CollectionPage({ params }) {
             {filteredQuestions.map((q, i) => (
               <tr
                 key={q.id}
-                className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}
-                title={`Click the checkboxes or add notes for "${q.title}"`}
+                className={i % 2 === 0 ? "bg-black" : "bg-gray-900"}
               >
                 <td className="px-4 py-3 text-center">
                   <input
                     type="checkbox"
                     checked={q.done || false}
                     onChange={() => handleToggleDone(q.id)}
-                    className="w-5 h-5 cursor-pointer rounded border-gray-300 focus:ring-2 focus:ring-indigo-500"
+                    className="w-5 h-5 cursor-pointer rounded border-gray-400 focus:ring-2 focus:ring-indigo-500"
                   />
                 </td>
                 <td className="px-4 py-3 text-center">
@@ -228,27 +226,26 @@ export default function CollectionPage({ params }) {
                     type="checkbox"
                     checked={q.revision || false}
                     onChange={() => handleToggleRevision(q.id)}
-                    className="w-5 h-5 cursor-pointer rounded border-gray-300 focus:ring-2 focus:ring-indigo-500"
+                    className="w-5 h-5 cursor-pointer rounded border-gray-400 focus:ring-2 focus:ring-indigo-500"
                   />
                 </td>
-                <td className="px-4 py-3 text-center text-sm text-gray-700 font-mono">{q.id}</td>
-                <td className="px-4 py-3 text-left text-sm font-medium text-gray-900">{q.title}</td>
-                <td className="px-4 py-3 text-center text-sm text-gray-700">{q.acceptance}</td>
-                <td className="px-4 py-3 text-center text-sm text-gray-700">{q.difficulty}</td>
-                <td className="px-4 py-3 text-center text-sm text-gray-700">{q.frequency}</td>
+                <td className="px-4 py-3 text-center text-sm text-gray-300 font-mono">{q.id}</td>
+                <td className="px-4 py-3 text-left text-sm font-medium text-white">{q.title}</td>
+                <td className="px-4 py-3 text-center text-sm text-gray-300">{q.acceptance}</td>
+                <td className="px-4 py-3 text-center text-sm text-gray-300">{q.difficulty}</td>
                 <td className="px-4 py-3 text-center">
                   <a
                     href={q.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-indigo-600 hover:text-indigo-800 font-semibold underline"
+                    className="text-indigo-400 hover:text-indigo-300 font-semibold underline"
                   >
                     View
                   </a>
                 </td>
                 <td className="px-4 py-3">
                   <textarea
-                    className="w-full rounded border border-gray-300 p-2 text-sm resize-y focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    className="w-full rounded border border-gray-600 p-2 text-sm resize-y bg-gray-900 text-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
                     defaultValue={q.note || ""}
                     onBlur={(e) => handleUpdateNote(q.id, e.target.value)}
                     rows={2}
@@ -262,4 +259,5 @@ export default function CollectionPage({ params }) {
       </div>
     </div>
   );
+
 }
