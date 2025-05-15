@@ -3,7 +3,7 @@ import axios from "axios";
 export const sendOtp = async (email) => {
     try {
         const res = await axios.post(
-            `${process.env.BASE_URL}/auth/request-otp`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/auth/request-otp`,
             { email },
             {
                 headers: {
@@ -20,7 +20,7 @@ export const sendOtp = async (email) => {
 export const verifyOtp = async (email, otp) => {
     try {
         const res = await axios.post(
-            `${process.env.BASE_URL}/auth/verify-otp`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/auth/verify-otp`,
             { email, otp },
             {
                 headers: {

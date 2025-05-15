@@ -6,7 +6,6 @@ import { fetchCollection, toggleDone, toggleRevision, updateNote } from "@/api/c
 
 export default function CollectionPage({ params }) {
   const { id } = params;
-  const router = useRouter();
   const [collection, setCollection] = useState(null);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
@@ -62,7 +61,7 @@ export default function CollectionPage({ params }) {
   async function refreshCollection() {
     try {
       const res = await fetchCollection(id);
-      setCollection(res.data);
+      setCollection(res);
     } catch (err) {
       setCollection(null);
     }

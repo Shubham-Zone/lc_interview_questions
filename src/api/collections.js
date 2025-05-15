@@ -5,9 +5,9 @@ const token = localStorage.getItem("token");
 export const fetchCollections = async (isPublic) => {
     try {
         const endpoint = isPublic
-            ? `${process.env.BASE_URL}/collections/global`
-            : `${process.env.BASE_URL}/api/collections`;
-
+            ? `${process.env.NEXT_PUBLIC_BASE_URL}/collections/global`
+            : `${process.env.NEXT_PUBLIC_BASE_URL}/collections`;
+        console.log(endpoint);
         const { data } = await axios.get(endpoint, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
@@ -22,7 +22,7 @@ export const fetchCollections = async (isPublic) => {
 
 export const fetchCollection = async (id) => {
     try {
-        const res = await axios.get(`${process.env.BASE_URL}/api/collections/${id}`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/collections/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -36,7 +36,7 @@ export const fetchCollection = async (id) => {
 export const toggleDone = async (id, questionId) => {
     try {
         await axios.post(
-            `${process.env.BASE_URL}/collections/toggle-done/${id}/${questionId}`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/collections/toggle-done/${id}/${questionId}`,
             {},
             {
                 headers: { Authorization: `Bearer ${token}` },
@@ -50,7 +50,7 @@ export const toggleDone = async (id, questionId) => {
 export const toggleRevision = async (id, questionId) => {
     try {
         await axios.post(
-            `${process.env.BASE_URL}/collections/toggle-revision/${id}/${questionId}`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/collections/toggle-revision/${id}/${questionId}`,
             {},
             {
                 headers: { Authorization: `Bearer ${token}` },
@@ -64,7 +64,7 @@ export const toggleRevision = async (id, questionId) => {
 export const updateNote = async (id, questionId, note) => {
     try {
         await axios.post(
-            `${process.env.BASE_URL}/collections/note/${id}/${questionId}`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/collections/note/${id}/${questionId}`,
             { note },
             {
                 headers: {
