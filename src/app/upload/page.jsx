@@ -25,9 +25,7 @@ export default function Upload() {
     formData.append("title", title);
 
     try {
-      const token = localStorage.getItem("token");
-
-      const { collectionId } = await uploadCSV(formData, token);
+      const { collectionId } = await uploadCSV(formData);
       router.push(`/collections/${collectionId}`);
     } catch (err) {
       console.log("Err", err);

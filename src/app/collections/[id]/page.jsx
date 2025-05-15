@@ -8,7 +8,14 @@ export default function CollectionPage({ params }) {
   const { id } = params;
   const [collection, setCollection] = useState(null);
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+  if (typeof window !== "undefined") {
+    const storedToken = localStorage.getItem("token");
+    setToken(storedToken);
+  }
+}, []);
 
   useEffect(() => {
     if (!token) {
@@ -29,7 +36,7 @@ export default function CollectionPage({ params }) {
     };
 
     handleFetchCollection();
-  }, [id]);
+  }, [id, token]);
 
   async function handleToggleDone(questionId) {
     try {
