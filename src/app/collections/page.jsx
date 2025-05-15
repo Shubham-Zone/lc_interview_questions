@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { fetchCollections } from "@/api/collections";
+import Loader from "@/components/Loader";
 
 export default function Collections() {
   const [collections, setCollections] = useState([]);
@@ -27,11 +28,7 @@ export default function Collections() {
   }, [isPublic]);
 
   if (loading)
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
-      </div>
-    );
+    return <Loader />
 
   if (!collections.length)
     return (
@@ -43,7 +40,7 @@ export default function Collections() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-extrabold text-gray-900 border-b pb-4">
+        <h1 className="text-4xl font-extrabold text-white border-b pb-4">
           {isPublic ? "Public Collections" : "Your Collections"}
         </h1>
         <button

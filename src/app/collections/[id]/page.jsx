@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { fetchCollection, toggleDone, toggleRevision, updateNote } from "@/api/collections";
+import Loader from "@/components/Loader";
 
 export default function CollectionPage({ params }) {
   const { id } = params;
@@ -11,16 +11,12 @@ export default function CollectionPage({ params }) {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-  if (typeof window !== "undefined") {
-    const storedToken = localStorage.getItem("token");
-    setToken(storedToken);
-  }
-}, []);
+    if (typeof window !== "undefined") {
+      const storedToken = localStorage.getItem("token");
+      setToken(storedToken);
+    }
 
-  useEffect(() => {
     if (!token) {
-      setLoading(false);
-      setCollection(null);
       return;
     }
 
@@ -39,18 +35,31 @@ export default function CollectionPage({ params }) {
   }, [id, token]);
 
   async function handleToggleDone(questionId) {
+    setCollection((prev) => ({
+      ...prev,
+      questions: prev.questions.map((q) =>
+        q.id === questionId ? { ...q, done: !q.done } : q
+      ),
+    }));
+
     try {
       await toggleDone(id, questionId);
-      refreshCollection();
     } catch (err) {
       console.error(err);
+      // Optionally revert on error (not shown here for simplicity)
     }
   }
 
   async function handleToggleRevision(questionId) {
+    setCollection((prev) => ({
+      ...prev,
+      questions: prev.questions.map((q) =>
+        q.id === questionId ? { ...q, revision: !q.revision } : q
+      ),
+    }));
+
     try {
       await toggleRevision(id, questionId);
-      refreshCollection();
     } catch (err) {
       console.error(err);
     }
@@ -75,11 +84,7 @@ export default function CollectionPage({ params }) {
   }
 
   if (loading)
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
-      </div>
-    );
+    return <Loader />
 
   if (!collection)
     return <p className="text-center text-red-600 text-lg mt-20">Collection not found.</p>;

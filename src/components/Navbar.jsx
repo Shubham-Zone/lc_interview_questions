@@ -1,14 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import clsx from 'clsx';
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
     setIsLoggedIn(!!token);
   }, []);
 
@@ -18,21 +21,41 @@ export default function Navbar() {
     router.push('/login');
   };
 
+  const navItems = [
+    { label: 'Home', href: '/' },
+    { label: 'Upload CSV', href: '/upload' },
+    { label: 'Collections', href: '/collections' },
+  ];
+
   return (
-    <nav className="bg-gray-900 text-white p-4 flex justify-between items-center">
-      <div className="flex space-x-6">
-        <a href="/" className="hover:underline">Home</a>
-        <a href="/upload" className="hover:underline">Upload CSV</a>
-        <a href="/collections" className="hover:underline">Collections</a>
+    <nav className="bg-gray-900 text-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <div className="flex items-center space-x-6">
+          <span className="text-xl font-bold text-indigo-400 tracking-wide">🧠 DSA Tracker</span>
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={clsx(
+                'text-sm px-3 py-1 rounded transition-colors duration-200',
+                pathname === item.href
+                  ? 'bg-indigo-600 text-white'
+                  : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+              )}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+        {isLoggedIn && (
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 hover:bg-red-700 text-sm px-4 py-1 rounded transition duration-200"
+          >
+            Logout
+          </button>
+        )}
       </div>
-      {isLoggedIn && (
-        <button
-          onClick={handleLogout}
-          className="bg-red-600 px-4 py-1 rounded hover:bg-red-700 text-sm"
-        >
-          Logout
-        </button>
-      )}
     </nav>
   );
 }
