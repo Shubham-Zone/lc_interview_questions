@@ -4,7 +4,7 @@ const token = localStorage.getItem("token");
 
 export const uploadCSV = async (formData) => {
   const res = await axios.post(
-    "http://localhost:5000/api/upload",
+    `${process.env.BASE_URL}/upload`,
     formData,
     {
       headers: {
